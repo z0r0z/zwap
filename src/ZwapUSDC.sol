@@ -21,7 +21,6 @@ contract ZwapUSDC {
 
     fallback() external payable {
         assembly ("memory-safe") {
-            if iszero(eq(caller(), POOL)) { revert(codesize(), 0x00) }
             let amount1Delta := calldataload(0x24)
             pop(call(gas(), WETH, amount1Delta, codesize(), 0x00, codesize(), 0x00))
             mstore(0x00, 0xa9059cbb000000000000000000000000)
