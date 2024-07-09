@@ -4,7 +4,7 @@ pragma solidity 0.8.26;
 /// @notice Swap any ETH sent to this contract into USDC at market rate.
 contract ZwapUSDC {
     bytes32 constant WETH = 0x000000000000000000000000C02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-    address constant POOL = 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640;
+    bytes32 constant POOL = 0x00000000000000000000000088e6A0c2dDD26FEEb64F039a2c41296FcB3f5640;
     uint256 constant MAX_SQRT_RATIO_MINUS_ONE = 1461446703485210103287273052203988822378723970341;
 
     receive() external payable {
@@ -14,10 +14,9 @@ contract ZwapUSDC {
             mstore(0x24, 0)
             mstore(0x44, callvalue())
             mstore(0x64, MAX_SQRT_RATIO_MINUS_ONE)
-            mstore(0x84, 160)
+            mstore(0x84, 0xa0)
             mstore(0xa4, 0)
-            let success := call(gas(), POOL, 0, 0x00, 0xc4, 0, 0)
-            if iszero(success) { revert(0, 0) }
+            pop(call(gas(), POOL, 0, 0x00, 0xc4, codesize(), 0x00))
         }
     }
 
