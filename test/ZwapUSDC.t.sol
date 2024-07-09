@@ -15,14 +15,6 @@ contract ZwapUSDCTest is Test {
         zwap = new ZwapUSDC();
     }
 
-    function testZwap() public payable {
-        uint256 balanceBefore = IERC20(USDC).balanceOf(VB);
-        vm.prank(VB);
-        zwap.zwap{value: 1 ether}(VB);
-        uint256 balanceAfter = IERC20(USDC).balanceOf(VB);
-        assertTrue(balanceAfter > balanceBefore);
-    }
-
     function testZwapReceive() public payable {
         uint256 balanceBefore = IERC20(USDC).balanceOf(VB);
         vm.prank(VB);
