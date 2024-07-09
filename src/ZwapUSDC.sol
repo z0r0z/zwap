@@ -9,7 +9,7 @@ contract ZwapUSDC {
 
     receive() external payable {
         assembly ("memory-safe") {
-            mstore(0x00, 0x128acb0800000000000000000000000000000000000000000000000000000000)
+            mstore(0x00, hex"128acb08")
             mstore(0x04, caller())
             mstore(0x24, 0)
             mstore(0x44, callvalue())
