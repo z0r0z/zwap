@@ -5,10 +5,12 @@ pragma solidity 0.8.26;
 contract ZwapUSDC {
     address constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
     address constant POOL = 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640;
-    uint160 constant MAX_SQRT_RATIO_MINUS_ONE = 1461446703485210103287273052203988822378723970341;
+    uint256 constant MAX_SQRT_RATIO_MINUS_ONE = 1461446703485210103287273052203988822378723970341;
 
     receive() external payable {
-        ISwap(POOL).swap(msg.sender, false, int256(msg.value), MAX_SQRT_RATIO_MINUS_ONE, "");
+        ISwap(POOL).swap(
+            msg.sender, false, int256(msg.value), uint160(MAX_SQRT_RATIO_MINUS_ONE), ""
+        );
     }
 
     fallback() external payable {
