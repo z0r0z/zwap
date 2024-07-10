@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.19;
 
-import {ZwapUSDC} from "../src/ZwapUSDC.sol";
+import {ZwapUSDCArb} from "../src/ZwapUSDCArb.sol";
 import {Test} from "../lib/forge-std/src/Test.sol";
 
-contract ZwapUSDCTest is Test {
+contract ZwapUSDCArbTest is Test {
     address constant VB = 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045;
-    address constant USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+    address constant USDC = 0xaf88d065e77c8cC2239327C5EDb3A432268e5831;
 
-    ZwapUSDC internal zwap;
+    ZwapUSDCArb internal zwap;
 
     function setUp() public payable {
-        vm.createSelectFork(vm.rpcUrl("main")); // Ethereum mainnet fork.
-        zwap = new ZwapUSDC();
+        vm.createSelectFork(vm.rpcUrl("arbi")); // Arbitrum fork.
+        zwap = new ZwapUSDCArb();
     }
 
     function testZwapReceive() public payable {
