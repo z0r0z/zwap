@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.26;
 
-/// @notice Efficiently swap ETH to USDC for any senders.
+/// @notice Swap ETH to USDC for any senders.
 contract ZwapUSDC {
     address constant POOL = 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640;
     address constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;

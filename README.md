@@ -2,6 +2,10 @@
 
 Simple zap-and-swap contracts for more secure and gas-efficient exchange and payment use cases.
 
+## arbitrum
+
+ZwapUSDCArb: [`0x15481c4387d40f6f4ed27c8a298685832c96c606`](https://arbiscan.io/address/0x15481c4387d40f6f4ed27c8a298685832c96c606#code)
+
 ## Getting Started
 
 Run: `curl -L https://foundry.paradigm.xyz | bash && source ~/.bashrc && foundryup`
