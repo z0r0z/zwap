@@ -41,7 +41,7 @@ contract ZwapUSDC {
 
     struct Drop {
         address to;
-        uint96 amount;
+        uint256 amount;
     }
 
     function zwapDrop(Drop[] calldata drops, uint256 sum) public payable {
@@ -51,7 +51,7 @@ contract ZwapUSDC {
         }
     }
 
-    function _transfer(address to, uint96 amount) internal {
+    function _transfer(address to, uint256 amount) internal {
         assembly ("memory-safe") {
             mstore(0x00, 0xa9059cbb000000000000000000000000)
             mstore(0x14, to)
