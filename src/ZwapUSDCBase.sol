@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.26;
 
-/// @notice Swap ETH to USDC and make payments on the Arbitrum L2.
-contract ZwapUSDCArb {
-    address constant POOL = 0xC6962004f452bE9203591991D15f6b388e09E8D0;
-    address constant USDC = 0xaf88d065e77c8cC2239327C5EDb3A432268e5831;
-    address constant WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
+/// @notice Swap ETH to USDC and make payments on the Base L2.
+contract ZwapUSDCBase {
+    address constant POOL = 0xd0b53D9277642d899DF5C87A3966A349A798F224;
+    address constant USDC = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
+    address constant WETH = 0x4200000000000000000000000000000000000006;
     uint160 internal constant MIN_SQRT_RATIO_PLUS_ONE = 4295128740;
 
     constructor() payable {}

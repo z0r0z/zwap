@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.19;
 
-import {ZwapUSDCArb} from "../src/ZwapUSDCArb.sol";
+import {ZwapUSDCBase} from "../src/ZwapUSDCBase.sol";
 import {Test} from "../lib/forge-std/src/Test.sol";
 
-contract ZwapUSDCArbTest is Test {
+contract ZwapUSDCBaseTest is Test {
     address constant VB = 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045;
-    address constant USDC = 0xaf88d065e77c8cC2239327C5EDb3A432268e5831;
+    address constant USDC = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
 
-    ZwapUSDCArb internal zwap;
+    ZwapUSDCBase internal zwap;
 
     address alice;
     address bob;
     address charlie;
 
     function setUp() public payable {
-        vm.createSelectFork(vm.rpcUrl("arbi")); // Arbitrum fork.
-        zwap = new ZwapUSDCArb();
+        vm.createSelectFork(vm.rpcUrl("base")); // Base fork.
+        zwap = new ZwapUSDCBase();
         alice = makeAddr("alice");
         bob = makeAddr("bob");
         charlie = makeAddr("charlie");
@@ -56,7 +56,7 @@ contract ZwapUSDCArbTest is Test {
     }
 
     function testZwapDrop() public payable {
-        ZwapUSDCArb.Drop[] memory drops = new ZwapUSDCArb.Drop[](3);
+        ZwapUSDCBase.Drop[] memory drops = new ZwapUSDCBase.Drop[](3);
         drops[0].to = alice;
         drops[0].amount = 1000000;
         drops[1].to = bob;
