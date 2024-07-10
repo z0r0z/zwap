@@ -10,9 +10,40 @@ contract ZwapUSDCTest is Test {
 
     ZwapUSDC internal zwap;
 
+    address alice;
+    address bob;
+    address charlie;
+
     function setUp() public payable {
         vm.createSelectFork(vm.rpcUrl("main")); // Ethereum mainnet fork.
         zwap = new ZwapUSDC();
+        alice = makeAddr("alice");
+        bob = makeAddr("bob");
+        charlie = makeAddr("charlie");
+    }
+
+    function testZwapInput() public payable {
+        uint256 balanceBefore = IERC20(USDC).balanceOf(VB);
+        vm.prank(VB);
+        zwap.zwap{value: 0.000999 ether}(VB, 0.000999 ether);
+        uint256 balanceAfter = IERC20(USDC).balanceOf(VB);
+        assertTrue(balanceAfter > balanceBefore);
+    }
+
+    function testZwapZeroInput() public payable {
+        uint256 balanceBefore = IERC20(USDC).balanceOf(VB);
+        vm.prank(VB);
+        zwap.zwap{value: 0.000999 ether}(VB, 0);
+        uint256 balanceAfter = IERC20(USDC).balanceOf(VB);
+        assertTrue(balanceAfter > balanceBefore);
+    }
+
+    function testZwapExactOutput() public payable {
+        uint256 balanceBefore = IERC20(USDC).balanceOf(VB);
+        vm.prank(VB);
+        zwap.zwap{value: 0.000999 ether}(VB, -3000000);
+        uint256 balanceAfter = IERC20(USDC).balanceOf(VB);
+        assertEq(balanceAfter, balanceBefore + 3000000);
     }
 
     function testZwapReceive() public payable {
@@ -21,6 +52,21 @@ contract ZwapUSDCTest is Test {
         (bool ok,) = address(zwap).call{value: 0.000999 ether}("");
         assert(ok);
         uint256 balanceAfter = IERC20(USDC).balanceOf(VB);
+        assertTrue(balanceAfter > balanceBefore);
+    }
+
+    function testZwapDrop() public payable {
+        ZwapUSDC.Drop[] memory drops = new ZwapUSDC.Drop[](3);
+        drops[0].to = alice;
+        drops[0].amount = 1000000;
+        drops[1].to = bob;
+        drops[1].amount = 1000000;
+        drops[2].to = charlie;
+        drops[2].amount = 1000000;
+        uint256 balanceBefore = IERC20(USDC).balanceOf(alice);
+        vm.prank(VB);
+        zwap.zwapDrop{value: 0.000999 ether}(drops, 3000000);
+        uint256 balanceAfter = IERC20(USDC).balanceOf(alice);
         assertTrue(balanceAfter > balanceBefore);
     }
 }

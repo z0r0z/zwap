@@ -47,15 +47,13 @@ contract ZwapUSDC {
     function zwapDrop(Drop[] calldata drops, uint256 sum) public payable {
         zwap(address(this), -int256(sum));
         for (uint256 i; i != drops.length; ++i) {
-            assembly ("memory-safe") {
-                mstore(0x00, 0xa9059cbb000000000000000000000000)
-            }
             _transfer(drops[i].to, drops[i].amount);
         }
     }
 
     function _transfer(address to, uint96 amount) internal {
         assembly ("memory-safe") {
+            mstore(0x00, 0xa9059cbb000000000000000000000000)
             mstore(0x14, to)
             mstore(0x34, amount)
             pop(call(gas(), USDC, 0, 0x10, 0x44, codesize(), 0x00))

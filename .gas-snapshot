@@ -1,2 +1,6 @@
-ZwapUSDCArbTest:testZwapReceive() (gas: 116984)
-ZwapUSDCTest:testZwapReceive() (gas: 108957)
+ZwapUSDCArbTest:testZwapReceive() (gas: 117002)
+ZwapUSDCTest:testZwapDrop() (gas: 199773)
+ZwapUSDCTest:testZwapExactOutput() (gas: 110331)
+ZwapUSDCTest:testZwapInput() (gas: 109313)
+ZwapUSDCTest:testZwapReceive() (gas: 108978)
+ZwapUSDCTest:testZwapZeroInput() (gas: 109305)
