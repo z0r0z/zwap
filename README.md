@@ -2,7 +2,14 @@
 
 Simple zap-and-swap contracts for more secure and gas-efficient exchange and payment use cases.
 
-## arbitrum
+## eth -> usdc zap
+> send ether and receive back usdc / allow for optional payment flow
+
+### ethereum
+
+ZwapUSDC: [`0x00000000000066cb57F7066c1ee03752C015d8AC`](https://etherscan.io/address/0x00000000000066cb57f7066c1ee03752c015d8ac#code)
+
+### arbitrum
 
 ZwapUSDCArb: [`0x15481c4387d40f6f4ed27c8a298685832c96c606`](https://arbiscan.io/address/0x15481c4387d40f6f4ed27c8a298685832c96c606#code)
 
