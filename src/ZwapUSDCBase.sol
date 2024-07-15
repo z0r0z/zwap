@@ -18,8 +18,18 @@ contract ZwapUSDCBase {
         assembly ("memory-safe") {
             if iszero(amount) { amount := callvalue() }
         }
-        ISwap(POOL).swap(to, true, amount, MIN_SQRT_RATIO_PLUS_ONE, "");
-        _repay(address(this).balance);
+        (int256 amount0,) = ISwap(POOL).swap(to, true, amount, MIN_SQRT_RATIO_PLUS_ONE, "");
+        if (amount > 0) {
+            assembly ("memory-safe") {
+                if lt(sub(0, amount0), mod(amount, 10000000000)) { revert(codesize(), codesize()) }
+            }
+        } else {
+            assembly ("memory-safe") {
+                if selfbalance() {
+                    pop(call(gas(), caller(), selfbalance(), codesize(), 0x00, codesize(), 0x00))
+                }
+            }
+        }
     }
 
     fallback() external payable {
@@ -33,22 +43,17 @@ contract ZwapUSDCBase {
         }
     }
 
-    function _repay(uint256 dust) internal {
-        assembly ("memory-safe") {
-            if dust { pop(call(gas(), caller(), dust, codesize(), 0x00, codesize(), 0x00)) }
-        }
-    }
-
-    struct Drop {
+    struct Zwap {
         address to;
         uint256 amount;
     }
 
-    function zwapDrop(Drop[] calldata drops, uint256 sum) public payable {
+    function zwap(Zwap[] calldata zwaps, uint256 sum) public payable {
         zwap(address(this), -int256(sum));
-        for (uint256 i; i != drops.length; ++i) {
-            _transfer(drops[i].to, drops[i].amount);
+        for (uint256 i; i != zwaps.length; ++i) {
+            _transfer(zwaps[i].to, zwaps[i].amount);
         }
+        if ((sum = _balanceOfThis()) != 0) _transfer(msg.sender, sum);
     }
 
     function _transfer(address to, uint256 amount) internal {
@@ -57,6 +62,15 @@ contract ZwapUSDCBase {
             mstore(0x14, to)
             mstore(0x34, amount)
             pop(call(gas(), USDC, 0, 0x10, 0x44, codesize(), 0x00))
+        }
+    }
+
+    function _balanceOfThis() internal view returns (uint256 amount) {
+        assembly ("memory-safe") {
+            mstore(0x00, 0x70a08231000000000000000000000000)
+            mstore(0x14, address())
+            pop(staticcall(gas(), USDC, 0x10, 0x24, 0x20, 0x20))
+            amount := mload(0x20)
         }
     }
 }
