@@ -21,7 +21,7 @@ contract ZwapUSDC {
         (int256 amount0,) = ISwap(POOL).swap(to, false, amount, MAX_SQRT_RATIO_MINUS_ONE, "");
         if (amount > 0) {
             assembly ("memory-safe") {
-                if lt(sub(0, amount0), mod(amount, 10000000000)) { revert(codesize(), 0x00) }
+                if lt(sub(0, amount0), mod(amount, 10000000000)) { revert(codesize(), codesize()) }
             }
         } else {
             assembly ("memory-safe") {
