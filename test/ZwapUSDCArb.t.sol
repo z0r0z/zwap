@@ -56,7 +56,7 @@ contract ZwapUSDCArbTest is Test {
     }
 
     function testZwapDrop() public payable {
-        ZwapUSDCArb.Drop[] memory drops = new ZwapUSDCArb.Drop[](3);
+        ZwapUSDCArb.Zwap[] memory drops = new ZwapUSDCArb.Zwap[](3);
         drops[0].to = alice;
         drops[0].amount = 1000000;
         drops[1].to = bob;
@@ -65,7 +65,7 @@ contract ZwapUSDCArbTest is Test {
         drops[2].amount = 1000000;
         uint256 balanceBefore = IERC20(USDC).balanceOf(alice);
         vm.prank(VB);
-        zwap.zwapDrop{value: 0.000999 ether}(drops, 3000000);
+        zwap.zwap{value: 0.000999 ether}(drops, 3000000);
         uint256 balanceAfter = IERC20(USDC).balanceOf(alice);
         assertTrue(balanceAfter > balanceBefore);
     }
