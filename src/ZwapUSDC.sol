@@ -43,15 +43,15 @@ contract ZwapUSDC {
         }
     }
 
-    struct Drop {
+    struct Zwap {
         address to;
         uint256 amount;
     }
 
-    function zwapDrop(Drop[] calldata drops, uint256 sum) public payable {
+    function zwap(Zwap[] calldata zwaps, uint256 sum) public payable {
         zwap(address(this), -int256(sum));
-        for (uint256 i; i != drops.length; ++i) {
-            _transfer(drops[i].to, drops[i].amount);
+        for (uint256 i; i != zwaps.length; ++i) {
+            _transfer(zwaps[i].to, zwaps[i].amount);
         }
         if ((sum = _balanceOfThis()) != 0) _transfer(msg.sender, sum);
     }
