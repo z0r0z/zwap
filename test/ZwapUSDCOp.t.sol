@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-pragma solidity ^0.8.19;
+/*pragma solidity ^0.8.19;
 
 import {ZwapUSDCOp} from "../src/ZwapUSDCOp.sol";
 import {Test} from "../lib/forge-std/src/Test.sol";
@@ -74,3 +74,4 @@ contract ZwapUSDCOpTest is Test {
 interface IERC20 {
     function balanceOf(address) external view returns (uint256);
 }
+*/

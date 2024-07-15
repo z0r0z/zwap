@@ -21,8 +21,11 @@ contract ZwapUSDC {
             if iszero(amount) { amount := callvalue() }
         }
         (int256 amount0,) = ISwap(POOL).swap(to, false, amount, MAX_SQRT_RATIO_MINUS_ONE, "");
-        if (uint256(-amount0) < msg.value % 10 ** 10) revert InvalidAmountOut();
-        _repay(address(this).balance);
+        if (amount > 0) {
+            if (uint256(-amount0) < (uint256(amount) % 10 ** 10)) revert InvalidAmountOut();
+        } else {
+            _repay(address(this).balance);
+        }
     }
 
     fallback() external payable {
