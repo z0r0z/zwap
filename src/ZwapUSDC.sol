@@ -14,11 +14,14 @@ contract ZwapUSDC {
         zwap(msg.sender, int256(msg.value));
     }
 
+    error InvalidAmountOut();
+
     function zwap(address to, int256 amount) public payable {
         assembly ("memory-safe") {
             if iszero(amount) { amount := callvalue() }
         }
-        ISwap(POOL).swap(to, false, amount, MAX_SQRT_RATIO_MINUS_ONE, "");
+        (int256 amount0,) = ISwap(POOL).swap(to, false, amount, MAX_SQRT_RATIO_MINUS_ONE, "");
+        if (uint256(-amount0) < msg.value % 10 ** 10) revert InvalidAmountOut();
         _repay(address(this).balance);
     }
 
