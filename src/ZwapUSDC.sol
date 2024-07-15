@@ -24,7 +24,10 @@ contract ZwapUSDC {
         if (amount > 0) {
             if (uint256(-amount0) < (uint256(amount) % 10 ** 10)) revert InvalidAmountOut();
         } else {
-            _repay(address(this).balance);
+            assembly ("memory-safe") {
+                let bal := selfbalance()
+                if bal { pop(call(gas(), caller(), bal, codesize(), 0x00, codesize(), 0x00)) }
+            }
         }
     }
 
@@ -36,12 +39,6 @@ contract ZwapUSDC {
             mstore(0x14, POOL)
             mstore(0x34, amount1Delta)
             pop(call(gas(), WETH, 0, 0x10, 0x44, codesize(), 0x00))
-        }
-    }
-
-    function _repay(uint256 dust) internal {
-        assembly ("memory-safe") {
-            if dust { pop(call(gas(), caller(), dust, codesize(), 0x00, codesize(), 0x00)) }
         }
     }
 
