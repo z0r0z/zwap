@@ -14,19 +14,20 @@ contract ZwapUSDC {
         zwap(msg.sender, int256(msg.value));
     }
 
-    error InvalidAmountOut();
-
     function zwap(address to, int256 amount) public payable {
         assembly ("memory-safe") {
             if iszero(amount) { amount := callvalue() }
         }
         (int256 amount0,) = ISwap(POOL).swap(to, false, amount, MAX_SQRT_RATIO_MINUS_ONE, "");
         if (amount > 0) {
-            if (uint256(-amount0) < (uint256(amount) % 10 ** 10)) revert InvalidAmountOut();
+            assembly ("memory-safe") {
+                if lt(sub(0, amount0), mod(amount, 10000000000)) { revert(codesize(), 0x00) }
+            }
         } else {
             assembly ("memory-safe") {
-                let bal := selfbalance()
-                if bal { pop(call(gas(), caller(), bal, codesize(), 0x00, codesize(), 0x00)) }
+                if selfbalance() {
+                    pop(call(gas(), caller(), selfbalance(), codesize(), 0x00, codesize(), 0x00))
+                }
             }
         }
     }
@@ -52,7 +53,7 @@ contract ZwapUSDC {
         for (uint256 i; i != drops.length; ++i) {
             _transfer(drops[i].to, drops[i].amount);
         }
-        _transfer(msg.sender, _balanceOfThis());
+        if ((sum = _balanceOfThis()) != 0) _transfer(msg.sender, sum);
     }
 
     function _transfer(address to, uint256 amount) internal {
